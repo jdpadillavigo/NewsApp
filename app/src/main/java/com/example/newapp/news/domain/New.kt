@@ -1,0 +1,17 @@
+package com.example.newapp.news.domain
+
+data class New(
+    val source: List<Source>,
+    val author: String,
+    val title: String,
+    val description: String,
+    val url: String,
+    val urlToImage: String,
+    val publishedAt: String,
+    val content: String
+)
+
+data class Source(
+    val id: String? = "",
+    val name: String
+)
