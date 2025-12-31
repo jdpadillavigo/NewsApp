@@ -26,6 +26,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
@@ -77,14 +78,14 @@ fun CarouselCard(
     )
 
     Column(
-        modifier = modifier,
+        modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         HorizontalPager(
             count = sliderList.size,
             state = pagerState,
             contentPadding = PaddingValues(horizontal = 20.dp),
-            modifier = Modifier.fillMaxHeight(0.9f)
+            modifier = Modifier.fillMaxHeight(0.85f)
         ) {
                 page ->
             val backgroundGradient: Brush
@@ -124,6 +125,11 @@ fun CarouselCard(
                     .clickable {
                         onAction(NewListAction.OnNewClick(sliderList[page]))
                     }
+                    .shadow(
+                        elevation = 10.dp,
+                        shape = RoundedCornerShape(30.dp),
+                        spotColor = MaterialTheme.colorScheme.onSurface
+                    )
             ) {
                 Box (
                     modifier = Modifier

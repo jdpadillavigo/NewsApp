@@ -75,7 +75,7 @@ fun HomeScreen(
                 CarouselCard(
                     news = state.news,
                     onAction = onAction,
-                    modifier = Modifier.fillMaxHeight(0.3f)
+                    modifier = Modifier.fillMaxHeight(0.45f)
                 )
                 HeaderLabel(
                     headerLabel = "Recommendation",
