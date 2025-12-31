@@ -38,7 +38,7 @@ fun BookmarkScreen(
 
 @PreviewLightDark
 @Composable
-fun BookmarkScreenPreview() {
+private fun BookmarkScreenPreview() {
     NewAppTheme {
         BookmarkScreen()
     }

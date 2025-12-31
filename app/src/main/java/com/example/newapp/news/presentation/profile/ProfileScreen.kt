@@ -38,7 +38,7 @@ fun ProfileScreen(
 
 @PreviewLightDark
 @Composable
-fun ProfileScreenPreview() {
+private fun ProfileScreenPreview() {
     NewAppTheme {
         ProfileScreen()
     }

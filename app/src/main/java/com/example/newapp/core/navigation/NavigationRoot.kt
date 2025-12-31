@@ -78,7 +78,8 @@ fun NavigationRoot(
                                 if (action is NewListAction.OnNewClick) {
                                     navigator.navigate(Route.NewDetail)
                                 }
-                            }
+                            },
+                            loadNews = "top-headlines"
                         )
                     }
                     entry<Route.Discover> {
@@ -89,7 +90,8 @@ fun NavigationRoot(
                                 if (action is NewListAction.OnNewClick) {
                                     navigator.navigate(Route.NewDetail)
                                 }
-                            }
+                            },
+                            loadNews = "everything"
                         )
                     }
                     entry<Route.Bookmark> {

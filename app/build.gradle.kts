@@ -78,9 +78,11 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
     implementation(libs.bundles.ktor)
-    implementation("io.coil-kt:coil-compose:2.7.0")
+    implementation(libs.coil.compose)
     implementation(libs.compose.material.icons.extended)
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
-    implementation("androidx.lifecycle:lifecycle-viewmodel-navigation3:2.10.0")
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
+    implementation(libs.accompanist.pager)
+    implementation(libs.androidx.compose.ui.util)
 }

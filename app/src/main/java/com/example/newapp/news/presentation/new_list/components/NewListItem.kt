@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Image
+import androidx.compose.material.icons.filled.ImageNotSupported
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -19,12 +20,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
+import coil.compose.SubcomposeAsyncImage
+import coil.request.ImageRequest
+import coil.size.Scale
 import com.example.newapp.news.presentation.models.NewUi
 import com.example.newapp.news.presentation.models.SourceUi
 import com.example.newapp.news.presentation.models.toFormattedPublishedAt
@@ -43,32 +47,39 @@ fun NewListItem(
             .clickable(onClick = onClick),
         horizontalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        if(newUi.urlToImage != "") {
-            AsyncImage(
-                newUi.urlToImage,
-                contentDescription = "New's image",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth(0.35f)
-                    .fillMaxHeight()
-                    .clip(RoundedCornerShape(15.dp))
-            )
-        } else {
-            Icon(
-                imageVector = Icons.Default.Image,
-                contentDescription = "New's image",
-                modifier = Modifier
-                    .fillMaxWidth(0.35f)
-                    .fillMaxHeight(),
-                tint = MaterialTheme.colorScheme.onSurface
-            )
-        }
+        SubcomposeAsyncImage (
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(newUi.urlToImage)
+                .crossfade(true)
+                .scale(Scale.FILL)
+                .build(),
+            contentDescription = "News image",
+            contentScale = ContentScale.Crop,
+            loading = {
+                Icon(
+                    imageVector = Icons.Default.Image,
+                    contentDescription = "Loading news image",
+                    tint = MaterialTheme.colorScheme.onSurface
+                )
+            },
+            error = {
+                Icon(
+                    imageVector = Icons.Default.ImageNotSupported,
+                    contentDescription = "No news image available",
+                    tint = MaterialTheme.colorScheme.onSurface
+                )
+            },
+            modifier = Modifier
+                .fillMaxWidth(0.35f)
+                .fillMaxHeight()
+                .clip(RoundedCornerShape(15.dp))
+        )
         Column {
             Text(
                 text = newUi.title,
                 fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                lineHeight = 30.sp,
+                fontSize = 16.sp,
+                lineHeight = 28.sp,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 color = MaterialTheme.colorScheme.onSurface
@@ -93,13 +104,13 @@ fun NewListItem(
 }
 
 @Composable
-fun TextInfo(
+private fun TextInfo(
     modifier: Modifier = Modifier,
     text: String
 ) {
     Text(
         text = text,
-        fontSize = 18.sp,
+        fontSize = 16.sp,
         maxLines = 1,
         overflow = TextOverflow.Ellipsis,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -109,7 +120,7 @@ fun TextInfo(
 
 @PreviewLightDark
 @Composable
-fun NewListItemPreview() {
+private fun NewListItemPreview() {
     NewAppTheme {
         NewListItem(
             newUi = previewNew,
@@ -122,13 +133,13 @@ fun NewListItemPreview() {
 
 internal val previewSource = SourceUi(
     id = "the-verge",
-    name = "The Verge"
+    name = "CNN Indonesia"
 )
 
 internal val previewNew = NewUi(
     source = previewSource,
     author = "David Pierce",
-    title = "What Training Do Voleyball Players Need? What Training Do Voleyball Players Need?",
+    title = "Alexander wears modified helmet in road races",
     description = "Hi, friends! Welcome to Installer No. 110, your guide to the best and Verge-iest stuff in the world. (If you're new here, welcome, happy holidays, and also you can read all the old editions at the Installer homepage.) This week, I've been reading about mall S…",
     url = "https://www.theverge.com/tech/848567/best-tech-movies-gadgets-2025-installer",
     urlToImage = "https://platform.theverge.com/wp-content/uploads/sites/2/2025/12/Installer-110.png?quality=90&strip=all&crop=0%2C10.711631919237%2C100%2C78.576736161526&w=1200",
