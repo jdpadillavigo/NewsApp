@@ -1,5 +1,11 @@
 package com.example.newapp.core.navigation
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -62,6 +68,22 @@ fun NavigationRoot(
                 .fillMaxSize()
                 .padding(innerPadding),
             onBack = navigator::goBack,
+            transitionSpec = {
+                fadeIn(animationSpec = tween(500)) togetherWith
+                    fadeOut(animationSpec = tween(500))
+            },
+            popTransitionSpec = {
+                slideInHorizontally(animationSpec = tween(500)) { -it } +
+                        fadeIn(animationSpec = tween(500)) togetherWith
+                        slideOutHorizontally(animationSpec = tween(500)) { it } +
+                        fadeOut(animationSpec = tween(500))
+            },
+            predictivePopTransitionSpec = {
+                slideInHorizontally(animationSpec = tween(500)) { -it } +
+                        fadeIn(animationSpec = tween(500)) togetherWith
+                        slideOutHorizontally(animationSpec = tween(500)) { it } +
+                        fadeOut(animationSpec = tween(500))
+            },
             entries = navigationState.toEntries(
                 entryProvider {
                     entry<Route.NewDetail> {
