@@ -15,13 +15,13 @@ if (localPropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.example.newapp"
+    namespace = "com.jdpadillavigo.newsapp"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.example.newapp"
+        applicationId = "com.jdpadillavigo.newsapp"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
