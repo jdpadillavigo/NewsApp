@@ -49,7 +49,6 @@ fun ErrorScreen(
             verticalArrangement = Arrangement.spacedBy(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
             if(state.errorMessage == NetworkError.NO_INTERNET.toMessage(context)) {
                 ErrorIcon(
                     imageVector = Icons.Default.SignalWifiStatusbarConnectedNoInternet4,
@@ -71,7 +70,7 @@ fun ErrorScreen(
                 )
             ) {
                 Text(
-                    text = "Reintentar",
+                    text = "Retry",
                     fontSize = 18.sp,
                     textAlign = TextAlign.Center
                 )

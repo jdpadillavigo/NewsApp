@@ -18,12 +18,12 @@ import androidx.compose.material.icons.automirrored.filled.TrendingUp
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Tune
+import androidx.compose.material3.DockedSearchBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -69,14 +69,13 @@ fun SearchComponent(
     } else {
         modifier
             .fillMaxWidth()
-            .padding(bottom = 8.dp)
             .padding(horizontal = 20.dp)
     }
 
     val searchTopicsList = searchTopics.drop(1)
 
     Box(modifier = searchModifier) {
-        SearchBar(
+        DockedSearchBar(
             modifier = Modifier.fillMaxWidth(),
             query = text,
             onQueryChange = {
@@ -132,7 +131,7 @@ fun SearchComponent(
                         if(text.isBlank() ||
                             searchHistory[item].contains(text, ignoreCase = true)) {
                             Column(
-                                modifier = modifier
+                                modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(horizontal = 20.dp)
                             ) {
@@ -167,7 +166,7 @@ fun SearchComponent(
                     if(text.isBlank() ||
                         searchTopicsList[item].contains(text, ignoreCase = true)) {
                         Column(
-                            modifier = modifier
+                            modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 20.dp)
                         ) {

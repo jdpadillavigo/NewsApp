@@ -85,4 +85,5 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
     implementation(libs.accompanist.pager)
     implementation(libs.androidx.compose.ui.util)
+    implementation(libs.androidx.compose.adaptive)
 }

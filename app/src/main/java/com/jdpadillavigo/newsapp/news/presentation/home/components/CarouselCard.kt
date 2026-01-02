@@ -63,6 +63,7 @@ import kotlin.math.absoluteValue
 fun CarouselCard(
     news: List<NewUi>,
     onAction: (NewListAction) -> Unit,
+    horizontalPadding: Dp,
     modifier: Modifier = Modifier
 ) {
     val sliderList = news.takeLast(5)
@@ -84,119 +85,119 @@ fun CarouselCard(
         HorizontalPager(
             count = sliderList.size,
             state = pagerState,
-            contentPadding = PaddingValues(horizontal = 20.dp),
+            contentPadding = PaddingValues(horizontal = horizontalPadding),
             modifier = Modifier.fillMaxHeight(0.85f)
         ) {
-                page ->
-            val backgroundGradient: Brush
-            if(sliderList[page].urlToImage != "") {
-                backgroundGradient = Brush.verticalGradient(
-                    colors = listOf(
-                        MaterialTheme.colorScheme.onSurface,
-                        Color.Transparent,
-                        Color.Transparent,
-                        MaterialTheme.colorScheme.onSurface
-                    )
-                )
-            } else {
-                backgroundGradient = Brush.verticalGradient(
-                    colors = listOf(
-                        Color.Transparent,
-                        Color.Transparent
-                    )
-                )
-            }
-
-            Card(
-                shape = RoundedCornerShape(30.dp),
-                modifier = Modifier
-                    .graphicsLayer {
-                        val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
-                        lerp(
-                            start = 0.94f,
-                            stop = 1f,
-                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
+            page ->
+                val backgroundGradient: Brush
+                if(sliderList[page].urlToImage != "") {
+                    backgroundGradient = Brush.verticalGradient(
+                        colors = listOf(
+                            MaterialTheme.colorScheme.onSurface,
+                            Color.Transparent,
+                            Color.Transparent,
+                            MaterialTheme.colorScheme.onSurface
                         )
-                            .also { scale ->
-                                scaleX = scale
-                                scaleY = scale
-                            }
-                    }
-                    .clickable {
-                        onAction(NewListAction.OnNewClick(sliderList[page]))
-                    }
-                    .shadow(
-                        elevation = 10.dp,
-                        shape = RoundedCornerShape(30.dp),
-                        spotColor = MaterialTheme.colorScheme.onSurface
                     )
-            ) {
-                Box (
+                } else {
+                    backgroundGradient = Brush.verticalGradient(
+                        colors = listOf(
+                            Color.Transparent,
+                            Color.Transparent
+                        )
+                    )
+                }
+
+                Card(
+                    shape = RoundedCornerShape(30.dp),
                     modifier = Modifier
-                        .fillMaxSize()
-                        .background(MaterialTheme.colorScheme.onSurface),
-                    contentAlignment = Alignment.Center
+                        .graphicsLayer {
+                            val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
+                            lerp(
+                                start = 0.94f,
+                                stop = 1f,
+                                fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                            )
+                                .also { scale ->
+                                    scaleX = scale
+                                    scaleY = scale
+                                }
+                        }
+                        .clickable {
+                            onAction(NewListAction.OnNewClick(sliderList[page]))
+                        }
+                        .shadow(
+                            elevation = 10.dp,
+                            shape = RoundedCornerShape(30.dp),
+                            spotColor = MaterialTheme.colorScheme.onSurface
+                        )
                 ) {
-                    SubcomposeAsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(sliderList[page].urlToImage)
-                            .crossfade(true)
-                            .scale(Scale.FILL)
-                            .build(),
-                        contentDescription = "News image",
-                        contentScale = ContentScale.Crop,
-                        loading = {
-                            ImageIcon(
-                                imageVector = Icons.Default.Image,
-                                contentDescription = "Loading news image"
-                            )
-                        },
-                        error = {
-                            ImageIcon(
-                                imageVector = Icons.Default.ImageNotSupported,
-                                contentDescription = "No news image available"
-                            )
-                        },
+                    Box (
                         modifier = Modifier
                             .fillMaxSize()
-                            .align(Alignment.Center)
-                    )
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(backgroundGradient)
-                            .align(Alignment.Center)
-                            .padding(20.dp)
+                            .background(MaterialTheme.colorScheme.onSurface),
+                        contentAlignment = Alignment.Center
                     ) {
-                        Column(
-                            modifier = Modifier.align(Alignment.BottomStart),
-                            verticalArrangement = Arrangement.spacedBy(5.dp)
+                        SubcomposeAsyncImage(
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(sliderList[page].urlToImage)
+                                .crossfade(true)
+                                .scale(Scale.FILL)
+                                .build(),
+                            contentDescription = "News image",
+                            contentScale = ContentScale.Crop,
+                            loading = {
+                                ImageIcon(
+                                    imageVector = Icons.Default.Image,
+                                    contentDescription = "Loading news image"
+                                )
+                            },
+                            error = {
+                                ImageIcon(
+                                    imageVector = Icons.Default.ImageNotSupported,
+                                    contentDescription = "No news image available"
+                                )
+                            },
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .align(Alignment.Center)
+                        )
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(backgroundGradient)
+                                .align(Alignment.Center)
+                                .padding(20.dp)
                         ) {
-                            Text(
-                                text = sliderList[page].source.name +
-                                        "  •  " +
-                                        sliderList[page].publishedAt.toTimeAgo(),
-                                color = MaterialTheme.colorScheme.surface,
-                                fontSize = 12.sp,
-                                fontWeight = FontWeight.Bold,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis,
-                                style = textShadow
-                            )
-                            Text(
-                                text = sliderList[page].title,
-                                color = MaterialTheme.colorScheme.surface,
-                                fontSize = 16.sp,
-                                lineHeight = 22.sp,
-                                fontWeight = FontWeight.Black,
-                                maxLines = 2,
-                                overflow = TextOverflow.Ellipsis,
-                                style = textShadow
-                            )
+                            Column(
+                                modifier = Modifier.align(Alignment.BottomStart),
+                                verticalArrangement = Arrangement.spacedBy(5.dp)
+                            ) {
+                                Text(
+                                    text = sliderList[page].source.name +
+                                            "  •  " +
+                                            sliderList[page].publishedAt.toTimeAgo(),
+                                    color = MaterialTheme.colorScheme.surface,
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis,
+                                    style = textShadow
+                                )
+                                Text(
+                                    text = sliderList[page].title,
+                                    color = MaterialTheme.colorScheme.surface,
+                                    fontSize = 16.sp,
+                                    lineHeight = 22.sp,
+                                    fontWeight = FontWeight.Black,
+                                    maxLines = 2,
+                                    overflow = TextOverflow.Ellipsis,
+                                    style = textShadow
+                                )
+                            }
                         }
                     }
                 }
-            }
         }
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -262,6 +263,7 @@ private fun CarouselCardPreview() {
                     previewNew
                 },
                 onAction = {},
+                horizontalPadding = 20.dp,
                 modifier = Modifier.fillMaxHeight(0.3f)
             )
         }
